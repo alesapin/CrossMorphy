@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="CrossMorphy" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\src\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/alesapin/Code/cpp/CrossMorphy" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="edit_cache">
+         <Option working_dir="/home/alesapin/Code/cpp/CrossMorphy" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 edit_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/alesapin/Code/cpp/CrossMorphy" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="CrossMorphy">
+         <Option output="/home/alesapin/Code/cpp/CrossMorphy/bin/CrossMorphy" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="bin/" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/alesapin/Code/cpp/CrossMorphy/include/CrossMorphy" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 CrossMorphy" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="CrossMorphy/fast">
+         <Option output="/home/alesapin/Code/cpp/CrossMorphy/bin/CrossMorphy" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="bin/" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/alesapin/Code/cpp/CrossMorphy/include/CrossMorphy" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 CrossMorphy/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/alesapin/Code/cpp/CrossMorphy/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/alesapin/Code/cpp/CrossMorphy/src/Analyze/SufProcessor.cpp">
+      </Unit>
+      <Unit filename="/home/alesapin/Code/cpp/CrossMorphy/src/Base/MorphChars.cpp">
+      </Unit>
+      <Unit filename="/home/alesapin/Code/cpp/CrossMorphy/src/Base/MorphClass.cpp">
+      </Unit>
+      <Unit filename="/home/alesapin/Code/cpp/CrossMorphy/src/main.cpp">
+      </Unit>
+      <Unit filename="/home/alesapin/Code/cpp/CrossMorphy/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/alesapin/Code/cpp/CrossMorphy/src/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>

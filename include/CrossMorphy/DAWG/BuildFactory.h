@@ -60,6 +60,12 @@ public:
         }
         return -1;
     }
+    /**
+     * @brief adding link to existing value of dict.
+     * @param key - key that should be linked
+     * @param - link num
+     * @return success of operation
+     */
     bool addLink(std::string str,std::size_t ind){
       if(ind > data.size()) return false;
       return dawgdic::DawgBuilder::Insert(str.c_str(),str.length(),ind);
