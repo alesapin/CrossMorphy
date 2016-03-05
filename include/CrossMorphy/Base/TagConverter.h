@@ -1,0 +1,8 @@
+//
+// Created by alesapin on 05.03.16.
+//
+
+#ifndef CROSSMORPHY_TAGCONVERTER_H
+#define CROSSMORPHY_TAGCONVERTER_H
+
+#endif //CROSSMORPHY_TAGCONVERTER_H

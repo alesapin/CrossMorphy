@@ -1,0 +1,8 @@
+//
+// Created by alesapin on 05.03.16.
+//
+
+#ifndef CROSSMORPHY_ITAGPRINTER_H
+#define CROSSMORPHY_ITAGPRINTER_H
+
+#endif //CROSSMORPHY_ITAGPRINTER_H
