@@ -258,12 +258,45 @@ public:
      * @param str - key
      * @return value
      */
-    const T &getValue(const std::string& str) const {
+    T getValue(const std::string& str) const {
         int val = dict->Find(str.c_str(),str.length());
         if(val != -1) {
             return data[val];
         }
         throw NoSuchKeyException(str);
+    }
+    /**
+     * NOT EXCEPTION SAFE - use getMaxSimilarKey
+     * @brief find value of maximum similar key;
+     * @param str - key
+     * @return max similar value
+     */
+    T getMaxSimilarValue(const std::string& str) const {
+        if(str.empty()){
+            throw NoSuchKeyException(str);
+        }
+        uint index, i = 0;
+        while(dict->Follow(str[i],&index)){
+            i++;
+        }
+        int value_ind = dict->value(index);
+        if(value_ind != -1){
+            return data[value_ind];
+        }
+        throw NoSuchKeyException(str);
+    }
+    /**
+     * @brief finds longest prefix key to str
+     * @param str - key
+     * @return longest prefix key
+     */
+    std::string getMaxSimilarKey(const std::string& str) const {
+        if(str.empty()) return "";
+        uint index, i = 0;
+        while(dict->Follow(str[i],&index)){
+            i++;
+        }
+        return str.substr(0,i);
     }
     /**
      * NOT EXCEPTION SAFE - check containty

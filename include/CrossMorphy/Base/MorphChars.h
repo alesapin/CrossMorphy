@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <type_traits>
 #include <string>
-
+#include <vector>
 namespace base {
     enum class SpeechPart : uint16_t {
         UNKNOWN = 0,
@@ -15,12 +15,14 @@ namespace base {
         PARTICIPLE = 5,
         PRON = 6,
         PREP = 7,
-        UNI = 8,
+        CONJ = 8,
         PARTICLE = 9,
+        INTJ = 10,
         SPEECH_PART_STOP,
         SPEECH_PART_START = NOUN
     };
     enum class Tag : uint64_t {
+        NOTAG = 0x00,
         UNDEF = 0x01,
         MASC = 0x02,
         FEM = 0x04,
@@ -45,24 +47,32 @@ namespace base {
         INDC = 0x40000,
         IMPR = 0x80000,
         MOOD_START = INDC,
-        MOOD_END = 0x100000,
+        MOOD_STOP = 0x100000,
         FP = 0x200000,
         SP = 0x400000,
         TP = 0x800000,
         PERSON_START = FP,
-        PERSON_END = 0x1000000,
+        PERSON_STOP = 0x1000000,
         PAST = 0x2000000,
         NPAST = 0x4000000,
         TIME_START = PAST,
-        TIME_END = 0x80000000,
+        TIME_STOP = 0x8000000,
         INF = 0x10000000,
         SHRT = 0x20000000,
         SPECIAL_START = INF,
-        SPECIAL_END = 0x40000000,
+        SPECIAL_STOP = 0x40000000,
+        NOUN_MASC = 0x1FEDF,
+        VERB_MASC = 0x16EC00C1,
+        ADJ_MASC = 0x2001FEDF,
     };
 
-    Tag operator++(Tag &val);
-
+    Tag& operator++(Tag &val);
+    Tag operator|(Tag t1, Tag t2);
+    Tag operator&(Tag t1, Tag t2);
+    Tag& operator|=(Tag& t1, Tag t2);
+    Tag& operator&=(Tag& t1,Tag t2);
+    Tag operator<<(Tag t,std::size_t bits);
+    Tag operator>>(Tag t,std::size_t bits);
     std::size_t toInt(Tag t);
 
     Tag fromInt(std::size_t val);

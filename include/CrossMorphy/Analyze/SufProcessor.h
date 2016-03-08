@@ -3,6 +3,8 @@
 
 #include <map>
 #include <stdexcept>
+#include <set>
+
 #include "SufCollection.h"
 #include "Base/MorphChars.h"
 #include "Base/MorphClass.h"
@@ -26,23 +28,33 @@ namespace analyze {
         }
     };
     typedef std::vector<WordForm> Lexeme;
+
     class SufProcessor {
     private:
         static const std::string NOUN;
         static const std::string VERB;
         static const std::string ADJ;
         static const std::string SHRTADJ;
-
+        static const std::string PRON;
+        static const std::string LOC_NOUNS;
+        static const std::string SING_PLUR_NOUNS;
         std::map<std::string, std::shared_ptr<SufCollection>> suffixes;
-
+        std::set<std::string> locativeNouns;
         std::vector<WordForm> getAllShortFormsByFullForm(const std::string &normalForm,
                                                          const base::MorphClass &cls) const;
 
     public:
         SufProcessor() { };
 
-        SufProcessor(const SufProcessor &o) { suffixes = o.suffixes; }
-
+        SufProcessor(const SufProcessor &o) {
+            suffixes = o.suffixes;
+            locativeNouns = o.locativeNouns;
+        }
+        SufProcessor&operator=(const SufProcessor& o){
+            suffixes = o.suffixes;
+            locativeNouns = o.locativeNouns;
+            return *this;
+        }
         std::string getSuffix(const base::MorphClass &cls) const;
 
         std::string getSuffix(base::SpeechPart sp, std::size_t classNum, std::size_t pos = 0,
@@ -58,9 +70,8 @@ namespace analyze {
 
         Lexeme getAllFormsByDictForm(const std::string &normalForm, const base::MorphClass &cls) const;
 
-        std::size_t getNumberOfForms(base::SpeechPart p, std::size_t clsNum,
-                                     std::size_t shrtPos = base::MorphClass::UNKNOWN_POS) const;
-
+        std::size_t getNumberOfForms(const base::MorphClass& cls, const std::string& form = "") const;
+        bool isLocativeNoun(const std::string& noun) const;
         static void loadSufProcessor(const std::string &filepath, SufProcessor &prc);
     };
 }

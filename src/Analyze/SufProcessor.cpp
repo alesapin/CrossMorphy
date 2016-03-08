@@ -5,7 +5,9 @@ namespace analyze {
     const std::string SufProcessor::VERB = "VERB";
     const std::string SufProcessor::ADJ = "ADJ";
     const std::string SufProcessor::SHRTADJ = "SHRTADJ";
-
+    const std::string SufProcessor::PRON = "PRON";
+    const std::string SufProcessor::LOC_NOUNS = "LOC_NOUNS";
+    const std::string SufProcessor::SING_PLUR_NOUNS = "SING_PLUR_NOUNS";
     void SufProcessor::loadSufProcessor(const std::string &filepath, SufProcessor &prc) {
         using boost::property_tree::ptree;
         ptree pt;
@@ -13,13 +15,16 @@ namespace analyze {
         for (auto sp = pt.begin(); sp != pt.end(); ++sp) {
             std::vector<std::vector<std::string>> result;
             if (sp->first != NOUN && sp->first != VERB &&
-                sp->first != ADJ && sp->first != SHRTADJ) {
-                throw std::invalid_argument("Wrong file suffix format: " + filepath);
+                sp->first != ADJ && sp->first != SHRTADJ &&
+                    sp->first != PRON) {
+                continue;
             }
+
             for (auto all : sp->second) {
                 result.push_back(std::vector<std::string>());
                 for (auto val : all.second) {
-                    result.back().push_back(val.second.get_value<std::string>());
+                    std::string str  = val.second.get_value<std::string>();
+                    result.back().push_back(str);
                 }
             }
             SufCollection *collect;
@@ -32,6 +37,11 @@ namespace analyze {
             }
             prc.suffixes[sp->first] = std::shared_ptr<SufCollection>(collect);
         }
+        for(auto& v : pt.get_child(LOC_NOUNS)) {
+            std::string str = v.second.get_value<std::string>();
+            auto ret = prc.locativeNouns.insert(str);
+        }
+
     }
 
     std::string SufProcessor::getSuffix(base::SpeechPart sp, std::size_t classNum, std::size_t pos,
@@ -49,6 +59,8 @@ namespace analyze {
                 } else {
                     return suffixes.at(ADJ)->getSuffix(base::MorphClass(sp, classNum, pos));
                 }
+            case base::SpeechPart::PRON:
+               return suffixes.at(PRON)->getSuffix(base::MorphClass(sp,classNum,pos));
             default:
                 return "";
         }
@@ -80,9 +92,11 @@ namespace analyze {
                                                              const base::MorphClass &cls) const {
         std::size_t formsCount;
         if (cls.getSpeechPart() == base::SpeechPart::ADJ) {
-            formsCount = getNumberOfForms(cls.getSpeechPart(), cls.getClassNumber(), cls.getShortAdjPos());
+            formsCount = getNumberOfForms(cls);
+        } else if (cls.getSpeechPart() == base::SpeechPart::NOUN) {
+            formsCount = getNumberOfForms(cls,stem);
         } else {
-            formsCount = getNumberOfForms(cls.getSpeechPart(), cls.getClassNumber());
+            formsCount = getNumberOfForms(cls);
         }
         std::vector<std::string> result(formsCount);
         for (std::size_t i = 0; i < formsCount; ++i) {
@@ -92,29 +106,36 @@ namespace analyze {
         return result;
     }
 
-    std::size_t SufProcessor::getNumberOfForms(base::SpeechPart p, std::size_t clsNum, std::size_t shrtPos) const {
-        switch (p) {
+    std::size_t SufProcessor::getNumberOfForms(const base::MorphClass& cls,const std::string& form) const {
+        std::size_t classNumber = cls.getClassNumber();
+        switch (cls.getSpeechPart()) {
             case base::SpeechPart::NOUN:
-                return suffixes.at(NOUN)->getPositionsSize(clsNum);
-            case base::SpeechPart::VERB:
-                return suffixes.at(VERB)->getPositionsSize(clsNum);
-            case base::SpeechPart::ADJ:
-                if (shrtPos != base::MorphClass::UNKNOWN_POS) {
-                    return suffixes.at(SHRTADJ)->getPositionsSize(clsNum);
-                } else {
-                    return suffixes.at(ADJ)->getPositionsSize(clsNum);
+                if(isLocativeNoun(form) && cls.getGender() == base::Tag::MASC){
+                    return suffixes.at(NOUN)->getPositionsSize(classNumber);
+                }else{
+                    return SufCollection::UNLOC_NOUNS_SIZE;
                 }
+            case base::SpeechPart::VERB:
+                return suffixes.at(VERB)->getPositionsSize(classNumber);
+            case base::SpeechPart::ADJ:
+                if (cls.getShortAdjPos() != base::MorphClass::UNKNOWN_POS) {
+                    return suffixes.at(SHRTADJ)->getPositionsSize(cls.getClassNumber());
+                } else {
+                    return suffixes.at(ADJ)->getPositionsSize(classNumber);
+                }
+            case base::SpeechPart::PRON:
+                return suffixes.at(PRON)->getPositionsSize(classNumber);
             default:
                 return 1;
         }
     }
 
     Lexeme SufProcessor::getAllFormsByDictForm(const std::string &normalForm,
-                                                              const base::MorphClass &cls) const {
+                                               const base::MorphClass &cls) const {
         Lexeme result;
         if (cls.getSpeechPart() == base::SpeechPart::ADJ
             && cls.getShortAdjPos() != base::MorphClass::UNKNOWN_POS) {
-            result = getAllShortFormsByFullForm(normalForm,cls);
+            result = getAllShortFormsByFullForm(normalForm, cls);
             if (cls.getClassNumber() != 0) {
                 base::MorphClass full(cls);
                 full.setShortAdjPos(base::MorphClass::UNKNOWN_POS);
@@ -150,10 +171,15 @@ namespace analyze {
         }
         return result;
     }
-    std::string SufProcessor::getNormalFromByForm(const std::string &form, const base::MorphClass& cls) const {
-        std::string stem = getStemByForm(form,cls);
-        std::string suff = getSuffix(cls.getSpeechPart(),cls.getClassNumber(),0,cls.getShortAdjPos());
+
+    std::string SufProcessor::getNormalFromByForm(const std::string &form, const base::MorphClass &cls) const {
+        std::string stem = getStemByForm(form, cls);
+        std::string suff = getSuffix(cls.getSpeechPart(), cls.getClassNumber(), 0, cls.getShortAdjPos());
         return stem + suff;
     }
+    bool SufProcessor::isLocativeNoun(const std::string& noun) const {
+        return locativeNouns.find(noun) != locativeNouns.end();
+    }
+
 
 }

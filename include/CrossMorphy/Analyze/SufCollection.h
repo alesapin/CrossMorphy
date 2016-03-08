@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Base/MorphClass.h"
 
+
 namespace analyze {
     class SufCollection {
     protected:
@@ -21,8 +22,8 @@ namespace analyze {
         virtual std::size_t getPositionsSize(std::size_t clsNum) const {
             return data.size() < clsNum ? 0 : data[clsNum].size();
         }
-
-        virtual ~SufCollection() { };
+        virtual ~SufCollection() {};
+        static const std::size_t UNLOC_NOUNS_SIZE = 6;
     };
 
     class ShrtAdjCollection : public SufCollection {

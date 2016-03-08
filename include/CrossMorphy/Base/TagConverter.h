@@ -1,8 +1,10 @@
-//
-// Created by alesapin on 05.03.16.
-//
-
-#ifndef CROSSMORPHY_TAGCONVERTER_H
-#define CROSSMORPHY_TAGCONVERTER_H
-
-#endif //CROSSMORPHY_TAGCONVERTER_H
+#ifndef TAGCONVERTER_H_
+#define TAGCONVERTER_H_
+#include "MorphChars.h"
+#include "MorphClass.h"
+#include "MorphClassContainer.h"
+namespace base {
+    Tag convertClassToTag(const MorphClass& cls);
+    MorphClassContainer convertTagToClasses(Tag t);
+}
+#endif //TAGCONVERTER_H_

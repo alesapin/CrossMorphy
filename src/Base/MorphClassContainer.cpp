@@ -48,7 +48,7 @@ namespace base {
 
     bool MorphClassContainer::operator==(const MorphClassContainer &o) const {
         if (sz != o.sz) return false;
-        return (bool) (!memcmp(data, o.data, sz * sizeof(MorphClass)));
+        return static_cast<bool>(!memcmp(data, o.data, sz * sizeof(MorphClass)));
     }
 
     MorphClassContainer &MorphClassContainer::operator=(const MorphClassContainer &o) {

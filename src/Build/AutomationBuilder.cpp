@@ -64,19 +64,65 @@ namespace build {
         ss >> num;
         ss >> gen;
         ss >> word;
-        base::SpeechPart spechPart = (base::SpeechPart) sp;
+        base::SpeechPart spechPart = static_cast<base::SpeechPart>(sp);
         if (spechPart == base::SpeechPart::VERB) {
             cls -= 1;
         }
         base::MorphClass cur(spechPart, cls);
 
         if (spechPart == base::SpeechPart::NOUN) {
-            cur.setGender((base::Tag) (1 << gen));
-            cur.setNumber((base::Tag) (0x20 << num));
+            cur.setGender(static_cast<base::Tag>(1 << gen));
+            cur.setNumber(static_cast<base::Tag> (0x20 << num));
         } else if (spechPart == base::SpeechPart::ADJ) {
             cur.setShortAdjPos(gen - 1);
         }
         return {word, cur};
+    }
+
+    std::shared_ptr<dawg::Dictionary<analyze::NounSuffix>> AutomationBuilder::buildNounPairsFromText(const std::string &textFileName){
+        std::ifstream ifs(textFileName, std::ifstream::in);
+        dawg::BuildFactory<analyze::NounSuffix> factory;
+        std::map<std::string,analyze::NounSuffix> unpacked;
+        std::unordered_map<analyze::NounSuffix, std::size_t> indexer;
+        std::string str;
+        while (std::getline(ifs, str)) {
+            std::vector<std::string> splited;
+            boost::split(splited,str,boost::is_any_of("\t "));
+            if(splited.size() != 2) continue;
+            std::string singForm = splited[0];
+            std::string plurForm = splited[1];
+            std::string commonPref = getCommonPrefix(singForm,plurForm);
+            std::size_t prefLen = commonPref.length();
+            analyze::NounSuffix singSuf(prefLen,singForm.substr(prefLen));
+            analyze::NounSuffix plurSuf(prefLen,plurForm.substr(prefLen));
+            unpacked[plurForm] = singSuf;
+            unpacked[singForm] = plurSuf;
+        }
+        for(auto itr = unpacked.begin();itr!=unpacked.end();++itr){
+            auto cur = indexer.find(itr->second);
+            if(cur != indexer.end()){
+                if(!factory.addLink(itr->first,cur->second)){
+                    std::cerr<<"Noun pair link was not created: " << itr->first<<"\n";
+                }
+            } else {
+                std::size_t ind;
+                if((ind = factory.insert(itr->first,itr->second)) != -1){
+                    indexer[itr->second] = ind;
+                } else {
+                    std::cerr<<"Noun pair was not inserted: "<< itr->first <<"\n";
+                }
+            }
+        }
+        ifs.close();
+        return factory.build();
+    }
+    std::string AutomationBuilder::getCommonPrefix(const std::string &s1,const std::string &s2){
+        std::string result = "";
+        for(int i = 0;i < s1.size() && i< s2.size(); ++i){
+            if(s1[i] != s2[i]) return result;
+            result += s1[i];
+        }
+        return result;
     }
 
 //    std::map<std::string, base::MorphClassContainer> AutomationBuilder::removeFormsByPrefix(

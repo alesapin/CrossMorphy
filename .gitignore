@@ -30,6 +30,8 @@
 *.cmake
 CMakeFiles/
 CMakeCache.txt
+CMakeLists.txt.user
 bin/
 Makefile
+CrossMorphy.cbp
 !bin/dicts/suffixes.json
