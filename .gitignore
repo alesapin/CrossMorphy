@@ -35,3 +35,6 @@ bin/
 Makefile
 CrossMorphy.cbp
 !bin/dicts/suffixes.json
+!bin/dicts/bindict
+!bin/dicts/binpairs
+!docs/doxygen.config

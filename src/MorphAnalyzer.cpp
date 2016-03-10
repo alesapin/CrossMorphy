@@ -24,7 +24,7 @@ namespace xmorph{
     std::vector<Parsed> MorphAnalyzer::analyze(const std::string& w) const {
         std::string word = prepareWord(w);
         std::vector<Parsed> result;
-        for(int i = 0;i<analyzers.size();++i){
+        for(std::size_t i = 0;i<analyzers.size();++i){
             std::vector<Parsed> anResult = analyzers[i]->analyze(word);
             if(!anResult.empty()){
                 result.insert(result.end(),anResult.begin(),anResult.end());

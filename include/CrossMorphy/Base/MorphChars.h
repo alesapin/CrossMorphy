@@ -5,7 +5,13 @@
 #include <type_traits>
 #include <string>
 #include <vector>
+/**
+ * Namespace for base classes and interfaces
+ */
 namespace base {
+    /**
+     * Enum for speech Part
+     */
     enum class SpeechPart : uint16_t {
         UNKNOWN = 0,
         NOUN = 1,
@@ -21,6 +27,9 @@ namespace base {
         SPEECH_PART_STOP,
         SPEECH_PART_START = NOUN
     };
+    /**
+     * Enum of flags, represent morphology tags
+     */
     enum class Tag : uint64_t {
         NOTAG = 0x00,
         UNDEF = 0x01,

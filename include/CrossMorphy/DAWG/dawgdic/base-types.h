@@ -2,7 +2,9 @@
 #define DAWGDIC_BASE_TYPES_H
 
 #include <cstddef>
-
+/**
+ * Library for DAWG taken from <a href="https://github.com/stil/dawgdic">dawgdic</a>
+ */
 namespace dawgdic {
 
 // 8-bit characters.

@@ -3,7 +3,10 @@
 
 #include "Base/ITagPrinter.h"
 #include <boost/algorithm/string/join.hpp>
-
+/**
+ * Cross lexica tags printer.
+ * Have to be moved in anyone namespace
+ */
 class CrossLexTagPrinter : public base::ITagPrinter {
     static const std::size_t CASE_SIZE = 8;
     static const std::string CASE[CASE_SIZE];

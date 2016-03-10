@@ -8,6 +8,10 @@
 #include <string>
 #include <memory>
 #include <iostream>
+/**
+ * Namespace contains classes, which provide high level api to
+ * dawgdic library.
+ */
 namespace dawg {
 
 template<typename T>

@@ -7,7 +7,7 @@ namespace analyze {
         std::shared_ptr<CrossLexTagPrinter> pt(t);
         try {
             base::MorphClassContainer vars = dict->getValue(wordForm);
-            for (int i = 0; i < vars.size(); ++i) {
+            for (std::size_t i = 0; i < vars.size(); ++i) {
                 std::string normalForm = sufProc.getNormalFromByForm(wordForm, vars[i]);
                 if(vars[i].getSpeechPart() == base::SpeechPart::NOUN && vars[i].getNumber() == base::Tag::PL) {
                     normalForm = np.getSingularForm(normalForm);

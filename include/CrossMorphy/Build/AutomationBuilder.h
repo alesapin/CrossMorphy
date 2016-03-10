@@ -13,8 +13,15 @@
 #include <fstream>
 #include <sstream>
 #include <boost/algorithm/string.hpp>
+/**
+ * Namespace contains all clases linked with
+ * dictionary building from text files on disk.
+ */
 namespace build {
     typedef  std::map<std::string, base::MorphClassContainer> UnpackDict;
+    /**
+     * Can build main dict and nounpairs dict
+     */
     class AutomationBuilder {
     private:
         analyze::SufProcessor sufProc;

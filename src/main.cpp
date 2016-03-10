@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iostream>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <vector>
@@ -9,19 +8,20 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/program_options.hpp>
 #include <boost/regex.hpp>
+#include <Build/AutomationBuilder.h>
 #include "MorphAnalyzer.h"
 using namespace boost::locale;
 namespace po=boost::program_options;
 using namespace std;
-void removeNonAlpha(std::string &str,std::locale& loc){
-    for(int i = 0;i<str.size();++i){
-        if(!std::isalpha(str[i],loc) && str[i] != ' '){
-            str[i] = ' ';
-        }
-    }
-}
 
 int main(int argc, char *argv[]) {
+//    analyze::SufProcessor p;
+//    analyze::SufProcessor::loadSufProcessor("dicts/suffixes.json",p);
+//    build::AutomationBuilder builder(p);
+//    std::shared_ptr<dawg::Dictionary<base::MorphClassContainer>> res =builder.buildMainDictFromText("dicts/dict.txt");
+//    std::ofstream ofs("dicts/bindict",std::ofstream::binary);
+//    res->serialize(ofs);
+//    ofs.close();
     generator gen;
     locale loc = gen("ru_RU.UTF8");
     locale::global(loc);
@@ -56,14 +56,13 @@ int main(int argc, char *argv[]) {
             std::string line;
             while(std::getline(ifs,line)){
                 if(line[0] == '\n') continue;
-                line = boost::locale::normalize(line,boost::locale::norm_default,loc);
                 line = boost::u32regex_replace(line, nonAlpha, " ");
                 line = boost::u32regex_replace(line,seqSpace, " ");
                 if(line.find_first_not_of(' ') == std::string::npos) continue;
                 std::vector<std::string> words;
                 boost::split(words,line,boost::is_any_of(" "));
                 for (int i = 0;i < words.size(); ++i) {
-                    if(words[i][0] == 0) continue;
+                    if(words[i][0] == 0 || words[i][0] == '-') continue;
                     std::vector<analyze::Parsed> res = m.analyze(words[i]);
                     if(res.empty()) {
                         *(err) << words[i] <<" unrecognized\n";

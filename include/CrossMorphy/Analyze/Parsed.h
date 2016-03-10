@@ -21,8 +21,8 @@ namespace analyze {
                 p) { };
 
         Parsed(const std::string &f, const std::string &nf, base::SpeechPart s, base::Tag t,
-               std::shared_ptr<base::ITagPrinter> tp) : form(f), normalForm(nf),
-                                                        sp(s), tag(t), printer(tp) { }
+               std::shared_ptr<base::ITagPrinter> tp) : printer(tp), form(f), normalForm(nf),
+                                                        sp(s), tag(t) { }
 
         void setForm(const std::string &f) { form = f; }
 

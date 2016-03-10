@@ -3,7 +3,7 @@
 namespace build {
     void AutomationBuilder::saveToMap(const analyze::Lexeme &form,
                                       std::map<std::string, base::MorphClassContainer> &fact) {
-        for (int i = 0; i < form.size(); ++i) {
+        for (std::size_t i = 0; i < form.size(); ++i) {
             if (fact.find(form[i].getForm()) == fact.end()) {
                 base::MorphClassContainer lst;
                 lst.append(form[i].getClass());
@@ -24,7 +24,7 @@ namespace build {
                     std::cerr << "Link not created:" << itr->first << "\n";
                 }
             } else {
-                std::size_t ind = fact.insert(itr->first, itr->second);
+                int ind = fact.insert(itr->first, itr->second);
                 if (ind != -1) {
                     indexer[itr->second] = ind;
                 } else {
@@ -105,7 +105,7 @@ namespace build {
                     std::cerr<<"Noun pair link was not created: " << itr->first<<"\n";
                 }
             } else {
-                std::size_t ind;
+                int ind;
                 if((ind = factory.insert(itr->first,itr->second)) != -1){
                     indexer[itr->second] = ind;
                 } else {
@@ -118,7 +118,7 @@ namespace build {
     }
     std::string AutomationBuilder::getCommonPrefix(const std::string &s1,const std::string &s2){
         std::string result = "";
-        for(int i = 0;i < s1.size() && i< s2.size(); ++i){
+        for(std::size_t i = 0;i < s1.size() && i< s2.size(); ++i){
             if(s1[i] != s2[i]) return result;
             result += s1[i];
         }

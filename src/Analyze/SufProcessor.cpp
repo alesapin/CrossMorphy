@@ -39,7 +39,7 @@ namespace analyze {
         }
         for(auto& v : pt.get_child(LOC_NOUNS)) {
             std::string str = v.second.get_value<std::string>();
-            auto ret = prc.locativeNouns.insert(str);
+            prc.locativeNouns.insert(str);
         }
 
     }

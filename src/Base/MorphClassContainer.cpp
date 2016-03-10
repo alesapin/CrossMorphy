@@ -63,7 +63,7 @@ namespace base {
     }
 
     void MorphClassContainer::append(const MorphClass &m) {
-        int currentSize = sz;
+        std::size_t currentSize = sz;
         if (currentSize == cps) {
             if (cps != 0) {
                 recapacity(trunc(cps * amortConst));

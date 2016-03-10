@@ -4,9 +4,18 @@
 #include <vector>
 #include <string>
 namespace base {
+    /**
+     * Interface for all classes, that could print tags.
+     */
     class ITagPrinter {
     public:
+        /**
+         * Return vector string repsentation of tag
+         */
         virtual std::vector<std::string> toStringVector(Tag t) const = 0;
+        /**
+         * Return string represantation of tag
+         */
         virtual std::string toString(Tag t) const = 0;
     };
 }

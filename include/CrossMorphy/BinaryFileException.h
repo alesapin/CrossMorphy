@@ -4,6 +4,7 @@
 #include <exception>
 #include <stdexcept>
 #include <string>
+namespace xmorph {
 class BinaryFileException : public std::runtime_error {
 private:
     std::string filename;
@@ -20,4 +21,5 @@ public:
         return filename;
     }
 };
+}
 #endif //BINARYFILEEXCEPTION_H

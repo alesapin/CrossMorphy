@@ -16,7 +16,7 @@ namespace analyze {
         std::shared_ptr<MainDict> dict;
         analyze::NounPairs np;
     public:
-        DictAnalyzer(std::shared_ptr<MainDict> d,const NounPairs& p, const SufProcessor &proc) : IAnalyzer(proc),np(p), dict(d) { }
+        DictAnalyzer(std::shared_ptr<MainDict> d,const NounPairs& p, const SufProcessor &proc) : IAnalyzer(proc), dict(d), np(p)  { }
 
         virtual std::vector<Parsed> analyze(const std::string &wordForm) const override;
 

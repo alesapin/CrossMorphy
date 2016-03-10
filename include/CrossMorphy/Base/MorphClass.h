@@ -5,12 +5,16 @@
 #include <climits>
 
 namespace base {
+    /**
+     * Class represents crosslexica morphology classes.
+     * Class simplt and contains getters and setters only.
+     */
     class MorphClass {
     private:
-        uint8_t sp; //speechpart_byte
-        uint16_t classNum; // class number repr;
-        uint8_t special; //Gender 0x0F and Number 0xF0 for NOUNS
-        uint8_t pos; //position in morphclass
+        uint8_t sp; ///speechpart_byte
+        uint16_t classNum; /// class number repr;
+        uint8_t special; ///Gender 0x0F and Number 0xF0 for NOUNS
+        uint8_t pos; ///position in morphclass
     public:
         MorphClass(SpeechPart p, uint16_t cl, uint8_t ps = UNKNOWN_POS);
 
@@ -51,6 +55,10 @@ namespace base {
         static const uint8_t UNKNOWN_POS;
     };
 }
+/**
+ * Specializing hash template, to be able to store
+ * MorphClass in unordered_ containers.
+ */
 namespace std {
     template<>
     class hash<base::MorphClass> {
