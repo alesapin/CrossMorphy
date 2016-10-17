@@ -7,7 +7,19 @@ include_directories(${Boost_INCLUDE_DIR})
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 set (EXECUTABLE_OUTPUT_PATH bin/)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
-add_subdirectory (src)
-include_directories (include/CrossMorphy)
+set (SOURCE_FILES
+  main.cpp
+  analyze/SufProcessor.cpp analyze/SufProcessor.h
+  base/MorphChars.h base/MorphChars.cpp
+  base/MorphClass.cpp base/MorphClass.cpp
+  base/MorphClassContainer.h base/MorphClassContainer.cpp
+  build/AutomationBuilder.h build/AutomationBuilder.cpp
+  analyze/DictAnalyzer.cpp analyze/DictAnalyzer.cpp
+  base/TagConverter.h base/TagConverter.cpp
+  tag_printer/CrossLexTagPrinter.h tag_printer/CrossLexTagPrinter.cpp
+  analyze/NounPairs.h analyze/NounPairs.cpp
+  Config.cpp
+  MorphAnalyzer.cpp
+)
 add_executable(CrossMorphy ${SOURCE_FILES})
 target_link_libraries(CrossMorphy ${Boost_LIBRARIES} ${ICU_LIBRARIES})
